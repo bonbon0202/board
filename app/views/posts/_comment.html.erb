@@ -1,0 +1,10 @@
+<% @post.comments.each_with_index do |comment, index| %>
+  <p id="comment_<%=comment.id%>">
+    <strong><%= comment.writer %>: </strong>
+    <span><%= comment.comment %></span>
+    <span><%= comment.created_at %></span>
+    <span><%= comment.updated_at %></span>
+    <%= link_to "수정", edit_post_comment_path(id: comment.id, post_id: comment.post.id), remote: true %> |
+    <%= button_to "삭제", [@post, comment], method: :delete %>
+  </p>
+<% end %>

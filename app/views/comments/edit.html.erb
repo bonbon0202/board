@@ -1,0 +1,16 @@
+<h1>Edit Comment</h1>
+<%= form_for([@post, @comment], remote: true) do |form| %>
+  <div>
+    <%= form.label :내용, style: "display: block" %>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div>
+    <%= form.label :작성자, style: "display: block" %>
+    <%= form.text_field :writer %>
+  </div>
+
+  <div>
+    <%= form.submit :수정 %>
+  </div>
+<% end %>
