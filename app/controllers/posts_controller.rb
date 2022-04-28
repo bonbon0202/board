@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :search_models
 
   # GET /posts or /posts.json
   def index
@@ -55,6 +56,10 @@ class PostsController < ApplicationController
       format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def search_models
+    @contents_search = Post.all
   end
 
   private
