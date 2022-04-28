@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>게시판</h1>
+
+<div id="posts">
+  <% @posts.each_with_index do |post, index| %>
+    <p>
+      <%= link_to(post) do %>
+        <strong><%= index+1 %>. </strong>
+        <%= post.title %>
+      <% end %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "새글 쓰기", new_post_path %>

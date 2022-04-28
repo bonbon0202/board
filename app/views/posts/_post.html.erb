@@ -1,0 +1,27 @@
+<div id="<%= dom_id post %>">
+  <h1>
+    제목:
+    <%= post.title %>
+  </h1>
+
+  <p>
+    <strong>내용:</strong>
+    <%= post.content %>
+  </p>
+
+  <p>
+    <strong>작성자:</strong>
+    <%= post.writer %>
+  </p>
+
+  <p>
+    <strong>작성된 날짜:</strong>
+    <%= post.created_at %>
+  </p>
+
+  <p>
+    <strong>수정된 날짜:</strong>
+    <%= post.updated_at %>
+  </p>
+
+</div>
