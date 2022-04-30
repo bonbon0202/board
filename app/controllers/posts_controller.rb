@@ -4,7 +4,13 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    if params[:sort] == "1"
+      @posts = Post.order('created_at DESC')
+    elsif params[:sort] == "2"
+      @posts = Post.order('updated_at DESC')
+    end  
+    
+    @pagy, @posts = pagy(@posts, items: 10)
   end
 
   # GET /posts/1 or /posts/1.json

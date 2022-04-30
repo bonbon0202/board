@@ -2,18 +2,10 @@
 
 <h1>게시판</h1>
 
+<%= render partial: "sort_form" %>
+
 <%= render 'search/search_form', contents: @contents_search.klass %>
 
-<div id="posts">
-  <% @posts.each_with_index do |post, index| %>
-    <p>
-      <%= link_to(post) do %>
-        <strong><%= index+1 %>. </strong>
-        <%= post.title %>
-      <% end %>
-      <span> 작성자: <%= post.writer %></span>
-    </p>
-  <% end %>
-</div>
+<%= render partial: "posts" %>
 
 <%= link_to "새글 쓰기", new_post_path %>
