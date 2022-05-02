@@ -10,7 +10,6 @@
 
 <hr>
 <%= render "comment", post: @post  %>
-<hr>
 
 <%= form_with(model: [@post, @post.comments.build]) do |form| %>
   <div>

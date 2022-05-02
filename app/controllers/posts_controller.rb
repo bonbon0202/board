@@ -2,12 +2,20 @@ class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
   before_action :search_models
 
+  SORTING_MAP = {
+    1 => 'created_at DESC',
+    2 => 'created_at ASC',
+    3 => 'updated_at DESC',
+    4 => 'updated_at ASC'
+  }
+
   def index
-    if params[:sort] == "2"
-      @posts = Post.order('updated_at DESC')
-    else 
+    if params[:sort] 
+      standard = SORTING_MAP[params[:sort].to_i]
+      @posts = Post.order(standard)
+    else
       @posts = Post.order('created_at DESC')
-    end  
+    end   
 
     @pagy, @posts = pagy(@posts, items: 10)
   end
@@ -28,10 +36,8 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
-        format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -40,10 +46,8 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
-        format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end

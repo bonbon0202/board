@@ -7,4 +7,5 @@
     <%= link_to "수정", edit_post_comment_path(id: comment.id, post_id: comment.post.id), remote: true %> |
     <%= button_to "삭제", [@post, comment], method: :delete %>
   </p>
+  <hr>
 <% end %>
