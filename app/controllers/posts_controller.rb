@@ -17,10 +17,7 @@ class PostsController < ApplicationController
     end   
 
     #max_page 값 추가하기
-    # max_page = 
     @pagy, @posts = pagy(@posts, items: 10)
-
-    # render json: { posts: @posts }, status: 200
   end
 
   def show
@@ -67,14 +64,6 @@ class PostsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  # def result
-  #   if params[:category] == "1"
-  #     @contents =Post.where("title LIKE ?", "%#{params[:search_text]}%")
-  #   elsif params[:category] == "2"
-  #     @contents =Post.where("writer LIKE ?", params[:search_text])
-  #   end    
-  # end
 
   private
     def set_post
