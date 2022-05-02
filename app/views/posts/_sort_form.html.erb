@@ -1,4 +1,9 @@
 <%= form_tag(root_path, method: "get") do  %>
-  <%= select_tag "sort", options_for_select([["최신생성순", 1], ["오래된생성순", 2], ["최신수정순", 3], ["오래된수정순", 4]], :selected => params[:sort]) %>
+  <%= select_tag "sort", options_for_select([
+          ["최신생성순", "created_at DESC"], 
+          ["오래된생성순", "created_at ASC"], 
+          ["최신수정순", "updated_at DESC"], 
+          ["오래된수정순", "updated_at ASC"]], 
+          :selected => params[:sort]) %>
   <%= submit_tag("정렬") %>
 <% end %>

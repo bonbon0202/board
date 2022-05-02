@@ -1,23 +1,26 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
-  before_action :search_models
-
-  SORTING_MAP = {
-    1 => 'created_at DESC',
-    2 => 'created_at ASC',
-    3 => 'updated_at DESC',
-    4 => 'updated_at ASC'
-  }
 
   def index
+    sort = params[:sort] || 'created_at DESC'
+    category = params[:category]
+    search_text = params[:search_text]
+    page = params[:page] || 1
+    limit = params[:limit] || 10
+
     if params[:sort] 
-      standard = SORTING_MAP[params[:sort].to_i]
-      @posts = Post.order(standard)
+      @posts = Post.order(sort)
+    elsif search_text
+      @posts = Post.where(category + " LIKE ?", category == "title" ? "%#{params[:search_text]}%" : params[:search_text])
     else
       @posts = Post.order('created_at DESC')
     end   
 
+    #max_page 값 추가하기
+    # max_page = 
     @pagy, @posts = pagy(@posts, items: 10)
+
+    # render json: { posts: @posts }, status: 200
   end
 
   def show
@@ -36,8 +39,10 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.save
         format.html { redirect_to post_url(@post), notice: "Post was successfully created." }
+        format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -46,8 +51,10 @@ class PostsController < ApplicationController
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to post_url(@post), notice: "Post was successfully updated." }
+        format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -61,9 +68,13 @@ class PostsController < ApplicationController
     end
   end
 
-  def search_models
-    @contents_search = Post.all
-  end
+  # def result
+  #   if params[:category] == "1"
+  #     @contents =Post.where("title LIKE ?", "%#{params[:search_text]}%")
+  #   elsif params[:category] == "2"
+  #     @contents =Post.where("writer LIKE ?", params[:search_text])
+  #   end    
+  # end
 
   private
     def set_post
