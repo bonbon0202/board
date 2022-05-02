@@ -3,19 +3,12 @@ class PostsController < ApplicationController
 
   def index
     sort = params[:sort] || 'created_at DESC'
-    category = params[:category]
-    search_text = params[:search_text]
+    category = params[:category] || 'title'
+    search_text = params[:search_text] || ''
     page = params[:page] || 1
     limit = params[:limit] || 10
-
-    if params[:sort] 
-      @posts = Post.order(sort)
-    elsif search_text
-      @posts = Post.where(category + " LIKE ?", category == "title" ? "%#{params[:search_text]}%" : params[:search_text])
-    else
-      @posts = Post.order('created_at DESC')
-    end   
-
+  
+    @posts = Post.order(sort).where(category + " LIKE ?", category == "title" ? "%#{params[:search_text]}%" : params[:search_text])
     #max_page 값 추가하기
     @pagy, @posts = pagy(@posts, items: 10)
   end
